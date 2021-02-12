@@ -2,7 +2,7 @@ import { ILogManager, IPublisher, ISESRequest, ISMSRequest } from "../interfaces
 import * as AWS from 'aws-sdk'
 import { Publisher } from "./publisher";
 
-export class AwsSms extends Publisher {
+export class AwsSes extends Publisher {
     protected data: ISMSRequest
     send() {
     }

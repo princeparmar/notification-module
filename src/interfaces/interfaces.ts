@@ -37,7 +37,7 @@ interface IParams {
     params: string[]
 }
 
-interface ITemplate {
+export interface ITemplate {
     templateId: string
     details: IParams[]
 }
