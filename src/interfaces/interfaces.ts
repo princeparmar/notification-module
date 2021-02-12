@@ -8,7 +8,7 @@ export interface IExecutorConfig {
     templateManager?: { [t: string]: ITemplateManager }
     publisher?: { [t: string]: IPublisher }
     logManager?: ILogManager
-    onSucess?: (data: Object) => {}
+    onSucess?: (data: object) => {}
     onError?: (err: Error) => {}
     finally?: () => {}
 }
@@ -72,6 +72,6 @@ export interface IRequest {
     type: IType
     template: ITemplate
     requestedTime: Date
-    userDetails: Object
+    userDetails: object
 }
 
