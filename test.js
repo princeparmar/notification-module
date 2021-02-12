@@ -1,16 +1,17 @@
 // Load the AWS SDK for Node.js
 var AWS = require('aws-sdk');
+const { isStrictNullChecksEnabled } = require('tslint');
 // Set region
 AWS.config.update({ region: 'ap-south-1' });
 
 
 async function start() {
-    console.log("start")
+    // console.log("start")
     try {
-        result = await sendEmail()
-        console.log("end", JSON.stringify(result))
+        // result = await sendEmail()
+        // console.log("end", JSON.stringify(result))
     } catch (e) {
-        console.log("received error", e)
+        // console.log("received error", e)
     }
 }
 
@@ -71,4 +72,12 @@ function sendSMS() {
     return new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
 }
 
-start()
+
+function check() {
+    return ""
+}
+
+let res = start()
+console.log(res instanceof Object)
+res = check()
+console.log(res instanceof Promise)

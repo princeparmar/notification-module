@@ -51,7 +51,7 @@ export class Executor {
 
     setRequest(request: IRequest) { this.request = request }
 
-    process() {
+    async process() {
         let lm = this.config.logManager
         lm.setRequest(this.request)
 
@@ -59,9 +59,15 @@ export class Executor {
         try {
             let t = this.request.type
             let tm = this.config.templateManager[t]
+            if (!tm) throw new Error(`INVALID_TEMP_TYPE`)
+
             tm.setInput(this.request.template)
             let tmpls = tm.getTemplate()
+            if (!tmpls || tmpls.length == 0) throw new Error("INVALID_TEMPLATE_ID")
+
             let pub = this.config.publisher[t]
+            if (!pub) throw new Error(`INVALID_PUBL_TYPE`)
+
             let out = []
             for (let tmpl of tmpls) {
                 lm.info(`validating request for ${tmpl}`)
@@ -69,7 +75,7 @@ export class Executor {
                 pub.setRequest(tmpl)
                 pub.validate()
                 lm.info(`send notification for ${tmpl}`)
-                let result = pub.send()
+                let result = await pub.send()
                 out.push(result)
                 lm.info(`sent success for ${tmpl}`)
             }

@@ -4,7 +4,8 @@ import { Publisher } from "./publisher";
 
 export class AwsSes extends Publisher {
     protected data: ISMSRequest
-    send() {
+    async send() {
+
     }
 
     validate() {

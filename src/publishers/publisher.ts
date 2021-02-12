@@ -11,6 +11,6 @@ export abstract class Publisher implements IPublisher {
         this.logger = logger
     }
 
-    abstract send(): void
+    abstract send(): Promise<any>
     abstract validate(): void
 }

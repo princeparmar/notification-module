@@ -17,7 +17,7 @@ export interface IPublisher {
     validate(): void
     setLogger(t: ILogManager): void
     setRequest(req: ISMSRequest | ISESRequest | ISNSRequest): void
-    send(): void
+    send(): Promise<any>
 }
 
 export interface ITemplateManager {
