@@ -1,0 +1,30 @@
+{
+  "name": "notification-module",
+  "version": "1.0.0",
+  "description": "notification handler for SES, SNS and SMS",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/princeparmar/notification-module.git"
+  },
+  "author": "pradip parmar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/princeparmar/notification-module/issues"
+  },
+  "homepage": "https://github.com/princeparmar/notification-module#readme",
+  "dependencies": {
+    "aws-sdk": "^2.841.0"
+  },
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^4.1.5"
+  }
+}
