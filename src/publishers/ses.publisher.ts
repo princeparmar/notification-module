@@ -3,7 +3,7 @@ import * as AWS from 'aws-sdk'
 import { Publisher } from "./publisher";
 
 export class AwsSes extends Publisher {
-    protected data: ISMSRequest
+    protected data: ISESRequest
     async send() {
         this.logger.info("sending data")
     }

@@ -1,6 +1,6 @@
 {
   "name": "notification-module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "notification handler for SES, SNS and SMS",
   "main": "index.js",
   "scripts": {

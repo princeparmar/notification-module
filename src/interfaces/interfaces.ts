@@ -5,7 +5,7 @@ export enum IType {
 }
 
 export interface IExecutorConfig {
-    templateManager?: { [t: string]: ITemplateManager }
+    templateManager?: ITemplateManager
     publisher?: { [t: string]: IPublisher }
     logManager?: ILogManager
     onSucess?: (data: object) => {}
@@ -21,12 +21,13 @@ export interface IPublisher {
 }
 
 export interface ITemplateManager {
-    setInput(inp: ITemplate): void
-    getTemplate(): ISMSRequest[] | ISESRequest[] | ISNSRequest[]
+    setInput(inp: ITemplate, typ: IType): void
+    getTemplate(): Promise<ISMSRequest[] | ISESRequest[] | ISNSRequest[]>
 }
 
 export interface ILogManager {
     setRequest(t: IRequest): void
+    updateStatus(status: string): void
     info(msg: string): void
     warn(msg: string, err: Error): void
     error(msg: string, err: Error): void
@@ -34,7 +35,7 @@ export interface ILogManager {
 
 interface IParams {
     sendTo: string
-    params: string[]
+    params: { [t: string]: string }
 }
 
 export interface ITemplate {
@@ -42,9 +43,14 @@ export interface ITemplate {
     details: IParams[]
 }
 
+export interface IBasicTemplate {
+    [t: string]: {
+        [t: string]: ISMSRequest | ISESRequest | ISNSRequest
+    }
+}
 
 export interface ISNSRequest {
-    token: string[]
+    sendTo: string
     title: string
     body: string
     action: string
@@ -54,7 +60,7 @@ export interface ISNSRequest {
 
 export interface ISESRequest {
     ccAddresses?: string[]
-    toAddresses: string[]
+    sendTo: string
     html?: string
     Text: string
     Subject: string
@@ -64,7 +70,7 @@ export interface ISESRequest {
 
 export interface ISMSRequest {
     message: string
-    number: string
+    sendTo: string
 }
 
 export interface IRequest {

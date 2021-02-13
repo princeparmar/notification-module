@@ -3,15 +3,14 @@ import { IRequest, IExecutorConfig, IType } from "./interfaces/interfaces";
 import { AwsSes } from "./publishers/ses.publisher";
 import { AwsSms } from "./publishers/sms.publisher";
 import { AwsSns } from "./publishers/sns.publisher";
-import { SesTemplate } from "./templates/sesTemplate";
-import { SmsTemplate } from "./templates/smsTemplate";
-import { SnsTemplate } from "./templates/snsTemplate";
+import { basicTemplates } from "./templates/basicTemplates";
+import { Template } from "./templates/template";
 
 export class Executor {
 
     // configurations for the executor
     private config: IExecutorConfig = {
-        templateManager: {},
+        templateManager: null,
         publisher: {},
         logManager: null
     }
@@ -24,9 +23,7 @@ export class Executor {
     }
 
     private setDefaultConfig() {
-        this.config.templateManager[IType.SES] = new SesTemplate()
-        this.config.templateManager[IType.SMS] = new SmsTemplate()
-        this.config.templateManager[IType.SNS] = new SnsTemplate()
+        this.config.templateManager = new Template(basicTemplates)
 
         this.config.publisher[IType.SES] = new AwsSes()
         this.config.publisher[IType.SMS] = new AwsSms()
@@ -38,9 +35,7 @@ export class Executor {
         if (config.publisher)
             for (const k in config.publisher) this.config.publisher[k] = config.publisher[k]
 
-        if (config.templateManager)
-            for (const k in config.templateManager) this.config.templateManager[k] = config.templateManager[k]
-
+        this.config.templateManager = config.templateManager || this.config.templateManager
         this.config.onError = config.onError || this.config.onError
         this.config.onSucess = config.onSucess || this.config.onSucess
         this.config.finally = config.finally || this.config.finally
@@ -55,11 +50,10 @@ export class Executor {
         lm.info("process started")
         try {
             const t = this.request.type
-            const tm = this.config.templateManager[t]
-            if (!tm) throw new Error(`INVALID_TEMP_TYPE`)
+            const tm = this.config.templateManager
 
-            tm.setInput(this.request.template)
-            const tmpls = tm.getTemplate()
+            tm.setInput(this.request.template, t)
+            const tmpls = await tm.getTemplate()
             if (!tmpls || tmpls.length === 0) throw new Error("INVALID_TEMPLATE_ID")
 
             const pub = this.config.publisher[t]
