@@ -10,7 +10,7 @@ export class AwsSms extends Publisher {
     send() {
         const params = {
             Message: this.data.message, /* required */
-            PhoneNumber: this.data.number,
+            PhoneNumber: this.data.sendTo,
         };
 
         return new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
@@ -18,6 +18,6 @@ export class AwsSms extends Publisher {
 
     validate() {
         if (!this.data.message || this.data.message.trim().length === 0) throw new Error("Invalid message in sms");
-        if (!this.data.number || this.data.number.trim().length === 0 || !this.reg.test(this.data.number)) throw new Error("Invalid number in sms");
+        if (!this.data.sendTo || this.data.sendTo.trim().length === 0 || !this.reg.test(this.data.sendTo)) throw new Error("Invalid number in sms");
     }
 }

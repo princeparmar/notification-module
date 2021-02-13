@@ -50,17 +50,17 @@ export interface IBasicTemplate {
 }
 
 export interface ISNSRequest {
-    sendTo: string
+    sendTo?: string
     title: string
     body: string
-    action: string
+    action?: string
     icon: string
 }
 
 
 export interface ISESRequest {
     ccAddresses?: string[]
-    sendTo: string
+    sendTo?: string
     html?: string
     Text: string
     Subject: string
@@ -70,7 +70,7 @@ export interface ISESRequest {
 
 export interface ISMSRequest {
     message: string
-    sendTo: string
+    sendTo?: string
 }
 
 export interface IRequest {

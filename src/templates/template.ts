@@ -19,13 +19,14 @@ export class Template implements ITemplateManager {
         let tmpl = this.findTemplate()
         tmpl = JSON.parse(JSON.stringify(tmpl))
 
-        let out: ISMSRequest[] | ISESRequest[] | ISNSRequest[] = []
+        const out: ISMSRequest[] | ISESRequest[] | ISNSRequest[] = []
 
-        for (let detail of this.inp.details) {
+        for (const detail of this.inp.details) {
+            if (!detail || !detail.params) continue
             tmpl.sendTo = detail.sendTo
             let str = JSON.stringify(tmpl)
-            for (let param in detail.params) {
-                str = str.split(param).join(detail.params[param])
+            for (const param of Object.keys(detail.params)) {
+                str = str.split(`[${param}]`).join(detail.params[param])
             }
             out.push(JSON.parse(str))
         }
